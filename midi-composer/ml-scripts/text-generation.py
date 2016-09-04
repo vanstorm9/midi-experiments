@@ -8,6 +8,11 @@ from keras.layers import Dropout
 from keras.layers import LSTM
 from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
+
+
+#filename = "../saved-results/weights-999-0.0028-overfit.hdf5"
+filename = "../checkpoints/weights-88-1.4163.hdf5"
+
 '''
 # load ascii text and covert to lowercase
 filename = "wonderland.txt"
@@ -63,10 +68,6 @@ model.add(LSTM(256))
 model.add(Dense(y.shape[1], activation= 'softmax' ))
 
 # load the network weights
-
-
-filename = "../checkpoints/weights-999-0.0028.hdf5"
-
 
 model.load_weights(filename)
 model.compile(loss= 'categorical_crossentropy' , optimizer= 'adam' )
