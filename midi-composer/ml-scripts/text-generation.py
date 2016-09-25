@@ -2,6 +2,8 @@
 import sys
 import numpy
 import matplotlib.pyplot as plt
+from midiutil.MidiFile import MIDIFile
+
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
@@ -10,15 +12,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 
 
-#filename = "../saved-results/weights-999-0.0028-overfit.hdf5"
-filename = "../checkpoints/weights-88-1.4163.hdf5"
-
-'''
-# load ascii text and covert to lowercase
-filename = "wonderland.txt"
-raw_text = open(filename).read()
-raw_text = raw_text.lower()
-'''
+filename = "../saved-results/weights-999-0.0028-overfit.hdf5"
 
 seq_length = 300
 
@@ -95,13 +89,35 @@ for i in range(1000):
 	#print result	
 	yPlot.append(result)
 	xPlot.append(i)
-
 	#sys.stdout.write(result)
 	pattern.append(index)
 	pattern = pattern[1:len(pattern)]
 
 
-plt.plot(xPlot, yPlot, 'ro')
-plt.show()
+print 'Writing file . . .'
+
+
+
+MyMIDI = MIDIFile(1)
+track = 0
+time = 0
+channel = 0
+duration = 1
+volume = 100
+tempo = 420
+
+MyMIDI.addTrackName(track, time, "Sample Track")
+MyMIDI.addTempo(track,time,tempo)
+
+
+for i in range(0,len(xPlot)-1):
+	time = xPlot[i]
+	pitch = yPlot[i]
+
+	MyMIDI.addNote(track, channel, pitch, time, duration, volume)
+
+binfile = open("result.mid", 'wb')
+MyMIDI.writeFile(binfile)
+binfile.close()
 
 print "\nDone."
