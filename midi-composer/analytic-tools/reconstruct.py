@@ -6,17 +6,19 @@ import os
 
 
 #fp = '../songs/beethoven_movement01.mid'
-fp = '../songs/world-is-mine.mid'
+fp = '../songs/lbtheme.mid'
+#fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
 #fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
 
-tracknum = 1
+tracknum = 2
 
 mf = midi.MidiFile()
 mf.open(fp)
 mf.read()
 mf.close()
+
 
 
 x = []
@@ -29,12 +31,16 @@ for tracksNum in range (0, len(mf.tracks)):
     print numOfEvents
     #print mf.tracks
 
+    mtf = midi.MidiFile()
 
-    mt = midi.MidiTrack(0)
+    mt = midi.MidiTrack(1)
+    
+    mtf.tracks = mt
 
+    count = 0
 
     for eventInd in range(0,numOfEvents):
-	print '------------'
+	#print '------------'
         # Tracks
         track = mf.tracks[tracksNum].events[eventInd]
         trackType = track.type
@@ -48,10 +54,16 @@ for tracksNum in range (0, len(mf.tracks)):
 		me.pitch = track.pitch
 		me.velocity = track.velocity
 
+		#print '[',me,']'
+		print '[',mt.events,']'
+		
+		mt.events = me
 	if trackType == 'NOTE_OFF':		
 		me.trackType = trackType
 		me.pitch = track.pitch
 		me.velocity = track.velocity
+		
+		#mt.tracks[0].events[count] = me
 
 	if trackType == 'DeltaTime':
 
@@ -63,15 +75,25 @@ for tracksNum in range (0, len(mf.tracks)):
 		me.trackType = trackType
 		me.pitch = track.pitch
 		me.velocity = track.velocity
-	print me
+	
+	#print len(mt.tracks[0].events)
+	#print mtf
 
 
 
 
+        count = count + 1
+    print mtf.tracks
+    mtf.tracks.append(mt)    
 
-        #count = count + 1
-    
-	'''
+    mtf.open('result.mid')
+    mtf.write()
+    mtf.close()
+
+    print 'Press enter to continue'
+    raw_input()
+
+    '''
     # Setting up new midi file
     MyMIDI = MIDIFile(1)
     track = 0
