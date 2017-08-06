@@ -9,8 +9,8 @@ import os
 #fp = '../songs/lbtheme.mid'
 #fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
-fp = '../songs/Suteki-Da-Ne.mid'
-#fp = '../songs/how-to-world-domination.mid'
+#fp = '../songs/Suteki-Da-Ne.mid'
+fp = '../songs/how-to-world-domination.mid'
 
 printTrackInfo = False
 tracknum = 1

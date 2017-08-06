@@ -9,8 +9,8 @@ import os
 #fp = '../songs/lbtheme.mid'
 #fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
-fp = '../songs/Suteki-Da-Ne.mid'
-#fp = '../songs/how-to-world-domination.mid'
+#fp = '../songs/Suteki-Da-Ne.mid'
+fp = '../songs/how-to-world-domination.mid'
 
 #printTracks = True
 printTracks = False
@@ -79,8 +79,13 @@ for tracksNum in range (0, len(mf.tracks)):
 		    pitch = track.pitch
 		    velocity = track.velocity
 		    channel = track.channel
-		    time = count		
+		    time = track.time
 		    volume = track.velocity
+
+		    if time is not None:
+			time = track.time
+		    else:
+			time = count
 
 		    MyMIDI.addNote(tracksNum, channel, pitch, time, duration, volume)
 		'''
