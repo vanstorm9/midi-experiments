@@ -13,7 +13,7 @@ fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
 
 #printTracks = True
-#printTracks = False
+printTracks = False
 
 
 ### Music21 Initalizations
