@@ -7,25 +7,14 @@ import os
 
 #fp = '../songs/beethoven_movement01.mid'
 #fp = '../songs/lbtheme.mid'
-fp = '../songs/world-is-mine.mid'
+#fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
-#fp = '../songs/Suteki-Da-Ne.mid'
+fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
 
-printTracks = False
+#printTracks = True
+#printTracks = False
 
-# Setting up new midi file
-MyMIDI = MIDIFile(1)
-track = 0
-time = 0
-channel = 0
-duration = 6 	# Controls how long a note is pressed
-volume = 100
-tempo = 680
-
-
-MyMIDI.addTrackName(track, time, "Sample Track")
-MyMIDI.addTempo(track,time,tempo)
 
 ### Music21 Initalizations
 mf = midi.MidiFile()
@@ -34,21 +23,36 @@ mf.read()
 mf.close()
 ###
 
+### MIDIUtil Initalizations
+MyMIDI = MIDIFile(len(mf.tracks))
+duration = 6 	# Controls how long a note is pressed
+volume = 100
+tempo = 680
+###
+
+
 
 count = 0
 prevPitch = -1
 
 mtf = midi.MidiFile()
 
+
+
+mt = midi.MidiTrack(len(mf.tracks))
+#mtf.tracks = mt
+
+
 for tracksNum in range (0, len(mf.tracks)):
     
 	print 'Track ', tracksNum
 
+	time = 0
+	MyMIDI.addTempo(tracksNum,time,tempo)
+
 	# Prints out the number of events in a track
 	numOfEvents = len(mf.tracks[tracksNum].events)
 
-	mt = midi.MidiTrack(1)
-	mtf.tracks = mt
 
 	
 	# Begin reconstruction of the track

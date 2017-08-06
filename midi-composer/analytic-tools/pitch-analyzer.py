@@ -7,9 +7,9 @@ import os
 
 #fp = '../songs/beethoven_movement01.mid'
 #fp = '../songs/lbtheme.mid'
-fp = '../songs/world-is-mine.mid'
+#fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
-#fp = '../songs/Suteki-Da-Ne.mid'
+fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
 
 printTrackInfo = False
