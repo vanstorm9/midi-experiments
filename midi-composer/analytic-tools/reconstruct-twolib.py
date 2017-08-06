@@ -32,7 +32,6 @@ tempo = 680
 
 
 
-count = 0
 prevPitch = -1
 
 mtf = midi.MidiFile()
@@ -47,7 +46,9 @@ for tracksNum in range (0, len(mf.tracks)):
     
 	print 'Track ', tracksNum
 
-	time = 0
+	count = 0
+	time = count
+
 	MyMIDI.addTempo(tracksNum,time,tempo)
 
 	# Prints out the number of events in a track
@@ -74,15 +75,14 @@ for tracksNum in range (0, len(mf.tracks)):
 
 
 		if trackType == 'NOTE_ON':
-		    
-		    me.trackType = trackType
+		   
 		    pitch = track.pitch
 		    velocity = track.velocity
 		    channel = track.channel
-		
+		    time = count		
 		    volume = track.velocity
 
-		    MyMIDI.addNote(tracksNum, channel, pitch, count, duration, volume)
+		    MyMIDI.addNote(tracksNum, channel, pitch, time, duration, volume)
 		'''
 		if trackType == 'NOTE_OFF':
 
