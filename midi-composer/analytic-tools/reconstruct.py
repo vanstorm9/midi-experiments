@@ -6,13 +6,12 @@ import os
 
 
 #fp = '../songs/beethoven_movement01.mid'
-fp = '../songs/lbtheme.mid'
-#fp = '../songs/world-is-mine.mid'
+#fp = '../songs/lbtheme.mid'
+fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
 #fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
 
-tracknum = 2
 
 mf = midi.MidiFile()
 mf.open(fp)
@@ -31,11 +30,12 @@ for tracksNum in range (0, len(mf.tracks)):
     print numOfEvents
     #print mf.tracks
 
-    mtf = midi.MidiFile()
 
-    mt = midi.MidiTrack(1)
-    
+    # Music21 Initalizatioon
+    mtf = midi.MidiFile()
+    mt = midi.MidiTrack(1)    
     mtf.tracks = mt
+
 
     count = 0
 
@@ -55,8 +55,9 @@ for tracksNum in range (0, len(mf.tracks)):
 		me.velocity = track.velocity
 
 		#print '[',me,']'
-		print '[',mt.events,']'
-		
+		#print '[',mt.events,']'
+		mt.events[count] = me
+
 		mt.events = me
 	if trackType == 'NOTE_OFF':		
 		me.trackType = trackType
@@ -83,7 +84,7 @@ for tracksNum in range (0, len(mf.tracks)):
 
 
         count = count + 1
-    print mtf.tracks
+    #print mtf.tracks
     mtf.tracks.append(mt)    
 
     mtf.open('result.mid')
