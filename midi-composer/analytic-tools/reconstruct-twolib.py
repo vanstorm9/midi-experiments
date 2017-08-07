@@ -7,14 +7,15 @@ import os
 
 #fp = '../songs/beethoven_movement01.mid'
 #fp = '../songs/lbtheme.mid'
-#fp = '../songs/world-is-mine.mid'
+fp = '../songs/world-is-mine.mid'
 #fp = './sample0.mid'
 #fp = '../songs/Suteki-Da-Ne.mid'
-fp = '../songs/how-to-world-domination.mid'
+#fp = '../songs/how-to-world-domination.mid'
 
 #printTracks = True
 printTracks = False
 
+programChangeOn = False
 
 ### Music21 Initalizations
 mf = midi.MidiFile()
@@ -25,9 +26,9 @@ mf.close()
 
 ### MIDIUtil Initalizations
 MyMIDI = MIDIFile(len(mf.tracks))
-duration = 6 	# Controls how long a note is pressed
 volume = 100
 tempo = 680
+duration = 6   # interval time that key is still pressed
 ###
 
 
@@ -66,36 +67,45 @@ for tracksNum in range (0, len(mf.tracks)):
 		me.type = trackType
 
 
-		# Tracks
-		track = mf.tracks[tracksNum].events[eventInd]
-		trackType = track.type
+		# event
+		event = mf.tracks[tracksNum].events[eventInd]
+		eventType = event.type
 
 		if printTracks:
-			print track
+			print event
+
+		pitch = event.pitch
+		velocity = event.velocity
+		channel = event.channel
+		time = event.time
+		volume = event.velocity
+
+
+
+	        if time is not None:
+		    time = track.time
+	        else:
+		    time = count
+
 
 
 		if trackType == 'NOTE_ON':
-		   
-		    pitch = track.pitch
-		    velocity = track.velocity
-		    channel = track.channel
-		    time = track.time
-		    volume = track.velocity
 
-		    if time is not None:
-			time = track.time
-		    else:
-			time = count
 
 		    MyMIDI.addNote(tracksNum, channel, pitch, time, duration, volume)
-		'''
-		if trackType == 'NOTE_OFF':
 
-		    MyMIDI.addNote(track, channel, pitch, time, duration, volume)
-		'''
+		# Controls instruments
+		
+		if programChangeOn:		
+			if trackType == 'PROGRAM_CHANGE':
+			    MyMIDI.addProgramChange(tracksNum, channel, time, event.data)
+		
+			
+		if trackType == 'CONTROLLER_CHANGE':
+		    MyMIDI.addControllerEvent(tracksNum, channel, time, event._parameter2, event._parameter1)
+		
 
-
-		prevPitch = track.pitch
+		prevPitch = event.pitch
 
 		count = count + 1
 
