@@ -1,4 +1,5 @@
 # Used to form the song input vector that we will used as input for model.py
+# We are plotting the structure of the midi file in this script
 
 import music21
 import matplotlib.pyplot as plt
@@ -11,12 +12,14 @@ dash = "-"
 
 #fp = '../songs/beethoven_movement01.mid'
 #fp = '../songs/world-is-mine.mid'
-#fp = '../songs/how-to-world-domination.mid'
-fp = '../songs/Suteki-Da-Ne.mid'
+fp = '../songs/how-to-world-domination.mid'
+#fp = '../songs/Suteki-Da-Ne.mid'
+#fp = '../songs/Deep-Sea-Girl.mid'
 
 #name = "world-is-mine"
-#name = "how-to-world-domination"
-name = "suteki-da-ne"
+name = "how-to-world-domination"
+#name = "suteki-da-ne"
+#name = "deep-sea-girl"
 
 
 mf = music21.midi.MidiFile()
@@ -40,29 +43,20 @@ for tracksNum in range (0, len(mf.tracks)):
     for eventInd in range(0,numOfEvents):
         
         # Tracks
-        track = mf.tracks[tracksNum].events[eventInd]
-        trackType = track.type
+        event = mf.tracks[tracksNum].events[eventInd]
+        eventType = event.type
 
-        if trackType == 'NOTE_ON':
+        if eventType == 'NOTE_ON':
             #print track
-	    if prevPitch != track.pitch:
-                y.append(track.pitch)
-                x.append(count)
+	    if prevPitch != event.pitch:
+                y.append(event.pitch)
                 count = count + 1
-        '''
-        elif trackType == 'NOTE_OFF':
-            print track
-        '''
       
-    save_path = matrix_path + name + slash + name 
-    x_set = '-x-' + str(mainCounter) + '.npy'
-    y_set = '-y-' + str(mainCounter) + '.npy'
+    save_path = matrix_path + name + slash 
+    y_set =  name + '-' + str(mainCounter) + '.npy'
     
-    np.save(save_path + x_set , x)
     np.save(save_path + y_set , y)
  
-    plt.plot(x,y,'ro')
-    plt.show()
 
     x = []
     y = []
@@ -70,5 +64,5 @@ for tracksNum in range (0, len(mf.tracks)):
     mainCounter = mainCounter + 1
         
     
-
+print 'Done'
 

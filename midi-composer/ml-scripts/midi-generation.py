@@ -1,4 +1,4 @@
-# Load Larger LSTM network and generate text
+# Load Larger LSTM network and generate melody
 import sys
 import numpy
 import matplotlib.pyplot as plt

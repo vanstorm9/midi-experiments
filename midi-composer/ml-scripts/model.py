@@ -1,3 +1,5 @@
+# To train the model
+
 import numpy 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -7,14 +9,10 @@ from keras.callbacks import ModelCheckpoint
 from keras.utils import np_utils
 
 # load ascii text and convert to lowercase
-'''
-filename = "../data/wonderland.txt"
-raw_text = open(filename).read()
-raw_text = raw_text.lower()
-'''
-seq_length = 300
+seq_length = 200
 
-read_path = '../matrices/input/world-is-mine/world-is-mine-y-0.npy' 
+#read_path = '../matrices/input/world-is-mine/world-is-mine-y-0.npy' 
+read_path = '../matrices/input/deep-sea-girl/deep-sea-girl-y-0.npy' 
 #read_path = '../matrices/input/how-to-world-domination/how-to-world-domination-y-0.npy' 
 #read_path = '../matrices/input/suteki-da-ne/suteki-da-ne-y-2.npy' 
 
@@ -63,9 +61,9 @@ print 'Y: ', y.shape
 # define the LSTM model
 model = Sequential()
 model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2]), return_sequences=True))
-#model.add(Dropout(0.05))
+model.add(Dropout(0.05))
 model.add(LSTM(256))
-#model.add(Dropout(0.05))
+model.add(Dropout(0.05))
 model.add(Dense(y.shape[1], activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 
