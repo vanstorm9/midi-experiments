@@ -16,6 +16,8 @@ fp = '../songs/world-is-mine.mid'
 printTracks = False
 
 programChangeOn = False
+deltaTimeOn = False
+
 
 ### Music21 Initalizations
 mf = midi.MidiFile()
@@ -60,11 +62,11 @@ for tracksNum in range (0, len(mf.tracks)):
 	# Begin reconstruction of the track
 	for eventInd in range(0,numOfEvents):
 
-		track = mf.tracks[tracksNum].events[eventInd]
-		trackType = track.type
+		event = mf.tracks[tracksNum].events[eventInd]
+		eventType = event.type
 
 		me = midi.MidiEvent(mt)		
-		me.type = trackType
+		me.type = eventType
 
 
 		# event
@@ -81,27 +83,37 @@ for tracksNum in range (0, len(mf.tracks)):
 		volume = event.velocity
 
 
+		if deltaTimeOn:
+			# determine the duration using DeltaTime
+			# First checking if we are at last note o track
+			if numOfEvents > eventInd + 1:
+
+			    # Now we get DeltaTime from the next MidiEvent and use that as duration
+			    nextStepType = mf.tracks[tracksNum].events[eventInd + 1]
+			    if nextStepType.type == 'DeltaTime':
+				duration = nextStepType.time/100		
+
+
 
 	        if time is not None:
-		    time = track.time
+		    time = event.time
 	        else:
 		    time = count
 
 
 
-		if trackType == 'NOTE_ON':
+		if eventType == 'NOTE_ON':
 
 
 		    MyMIDI.addNote(tracksNum, channel, pitch, time, duration, volume)
 
-		# Controls instruments
-		
+		# Controls instruments	
 		if programChangeOn:		
-			if trackType == 'PROGRAM_CHANGE':
+			if eventType == 'PROGRAM_CHANGE':
 			    MyMIDI.addProgramChange(tracksNum, channel, time, event.data)
 		
 			
-		if trackType == 'CONTROLLER_CHANGE':
+		if eventType == 'CONTROLLER_CHANGE':
 		    MyMIDI.addControllerEvent(tracksNum, channel, time, event._parameter2, event._parameter1)
 		
 
