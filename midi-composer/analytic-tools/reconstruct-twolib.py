@@ -7,15 +7,17 @@ import os
 
 #fp = '../songs/beethoven_movement01.mid'
 #fp = '../songs/lbtheme.mid'
-fp = '../songs/world-is-mine.mid'
-#fp = './sample0.mid'
+#fp = '../songs/world-is-mine.mid'
 #fp = '../songs/Suteki-Da-Ne.mid'
 #fp = '../songs/how-to-world-domination.mid'
+#fp = '../songs/Deep-Sea-Girl.mid'
+fp = '../songs/cantarella.mid'
 
 #printTracks = True
 printTracks = False
 
-programChangeOn = False
+programChangeOn = False  # affects instrumentals
+controllerChangeOn = False 
 deltaTimeOn = False
 
 
@@ -112,9 +114,9 @@ for tracksNum in range (0, len(mf.tracks)):
 			if eventType == 'PROGRAM_CHANGE':
 			    MyMIDI.addProgramChange(tracksNum, channel, time, event.data)
 		
-			
-		if eventType == 'CONTROLLER_CHANGE':
-		    MyMIDI.addControllerEvent(tracksNum, channel, time, event._parameter2, event._parameter1)
+		if controllerChangeOn:	
+			if eventType == 'CONTROLLER_CHANGE':
+			    MyMIDI.addControllerEvent(tracksNum, channel, time, event._parameter2, event._parameter1)
 		
 
 		prevPitch = event.pitch
